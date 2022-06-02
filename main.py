@@ -11,6 +11,12 @@ BLACK = (0,0,0)
 
 SS_WIDTH, SS_HEIGHT = 55,40
 VELOCITY = 5
+BULLET_VELOCITY = 10
+
+#arrays to store our bullets
+yellow_bullets = []
+red_bullets = []
+MAX_BULLETS = 3
 
 pygame.init()
 
@@ -36,25 +42,25 @@ def updateScreen(red, yellow):
     pygame.display.update()
 
 #moves the yellow ship
-def yellow_handle_movement(keys_pressed,y):
-    if keys_pressed[pygame.K_a]: #left key
+def yellow_handle_movement(keys_pressed,y): 
+    if keys_pressed[pygame.K_a] and (y.x - VELOCITY) > 0: #left key
         y.x -= VELOCITY
-    if keys_pressed[pygame.K_d]: #right key
+    if keys_pressed[pygame.K_d] and (y.x + VELOCITY + y.width) < BORDER.x + 10: #right key
         y.x += VELOCITY
-    if keys_pressed[pygame.K_s]: #down key
+    if keys_pressed[pygame.K_s] and (y.y + VELOCITY + y.height) < HEIGHT - 10: #down key
         y.y += VELOCITY
-    if keys_pressed[pygame.K_w]: #up key
+    if keys_pressed[pygame.K_w] and (y.y - VELOCITY) > 0: #up key
         y.y -= VELOCITY
 
 #moves the red ship
 def red_handle_movement(keys_pressed,r):
-    if keys_pressed[pygame.K_LEFT]: #left key
+    if keys_pressed[pygame.K_LEFT] and (r.x - VELOCITY) > BORDER.x + 10: #left key
         r.x -= VELOCITY
-    if keys_pressed[pygame.K_RIGHT]: #right key
+    if keys_pressed[pygame.K_RIGHT] and (r.x + VELOCITY + r.width) < WIDTH + 15: #right key
         r.x += VELOCITY
-    if keys_pressed[pygame.K_DOWN]: #down key
+    if keys_pressed[pygame.K_DOWN] and (r.y + VELOCITY + r.height) < HEIGHT - 10: #down key
         r.y += VELOCITY
-    if keys_pressed[pygame.K_UP]: #up key
+    if keys_pressed[pygame.K_UP] and (r.y - VELOCITY) > 0: #up key
         r.y -= VELOCITY
 
 #main function
@@ -74,7 +80,18 @@ def main():
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 run = False
+            
+            if event.type == pygame.KEYDOWN:
 
+                if event.key == pygame.K_LCTRL and len(yellow_bullets) < MAX_BULLETS:
+                    bullet = pygame.Rect(y.x + y.width, y.y + y.height/2 - 2, 10, 5)
+                    yellow_bullets.append(bullet)
+
+                if event.key == pygame.K_RCTRL and len(red_bullets) < MAX_BULLETS:
+                    bullet = pygame.Rect(r.x, r.y + r.height/2, 10, 5)
+                    red_bullets.append(bullet)
+        
+        print(red_bullets, yellow_bullets)
         keys_pressed = pygame.key.get_pressed()
 
         yellow_handle_movement(keys_pressed, y)
