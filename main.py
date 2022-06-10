@@ -184,13 +184,13 @@ def main():
             if event.type == pygame.KEYDOWN:
 
                 # creates bullets from corresponding positions of the spaceship
-                if event.key == pygame.K_e and len(yellow_bullets) < MAX_BULLETS:
+                if event.key == pygame.K_LCTRL and len(yellow_bullets) < MAX_BULLETS:
                     bullet = pygame.Rect(
                         y.x + y.width, y.y + y.height//2 - 2, 10, 5)
                     yellow_bullets.append(bullet)
                     BULLET_FIRE_SOUND.play()
 
-                if event.key == pygame.K_l and len(red_bullets) < MAX_BULLETS:
+                if event.key == pygame.K_RCTRL and len(red_bullets) < MAX_BULLETS:
                     bullet = pygame.Rect(r.x, r.y + r.height//2, 10, 5)
                     red_bullets.append(bullet)
 
