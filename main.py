@@ -1,6 +1,7 @@
 import pygame
 import os
 pygame.font.init()
+pygame.mixer.init()
 
 #defining necessary constants
 WIDTH, HEIGHT = 900,500
@@ -21,6 +22,9 @@ WINNER_FONT = pygame.font.SysFont('comicsans',100)
 
 YELLOW_HIT = pygame.USEREVENT + 1
 RED_HIT = pygame.USEREVENT + 2
+
+BULLET_HIT_SOUND = pygame.mixer.Sound(os.path.join(PATH, 'Hit.mp3'))
+BULLET_FIRE_SOUND = pygame.mixer.Sound(os.path.join(PATH, 'Shoot.mp3'))
 
 #arrays to store our bullets
 yellow_bullets = []
@@ -117,6 +121,12 @@ def handle_bullets(yellow_bullets, red_bullets, yellow, red):
 #main function
 def main():
     
+    for bullet in red_bullets:
+        red_bullets.remove(bullet)
+    
+    for bullet in yellow_bullets:
+        yellow_bullets.remove(bullet)
+
     r = pygame.Rect(700, 300, SS_WIDTH, SS_HEIGHT)
     y = pygame.Rect(100, 300, SS_WIDTH, SS_HEIGHT)
 
@@ -142,16 +152,20 @@ def main():
                 if event.key == pygame.K_LCTRL and len(yellow_bullets) < MAX_BULLETS:
                     bullet = pygame.Rect(y.x + y.width, y.y + y.height//2 - 2, 10, 5)
                     yellow_bullets.append(bullet)
+                    BULLET_FIRE_SOUND.play()
 
                 if event.key == pygame.K_RCTRL and len(red_bullets) < MAX_BULLETS:
                     bullet = pygame.Rect(r.x, r.y + r.height//2, 10, 5)
                     red_bullets.append(bullet)
+                    BULLET_FIRE_SOUND.play()
             
             #subtracting health points if any spaceship is hit
             if event.type == RED_HIT:
+                BULLET_HIT_SOUND.play()
                 red_health -= 1
 
             if event.type == YELLOW_HIT:
+                BULLET_HIT_SOUND.play()
                 yellow_health -= 1
         
         winner_text = ""
@@ -162,10 +176,6 @@ def main():
         if yellow_health <= 0:
             winner_text = "Red Wins"
 
-        if winner_text != "":
-            draw_winner(winner_text)
-            break
-        
         keys_pressed = pygame.key.get_pressed()
 
         #functions to handle movement
@@ -177,6 +187,10 @@ def main():
 
         #updates the screen with new positions of the spaceships and bullets
         updateScreen(r, y, red_bullets, yellow_bullets, red_health, yellow_health)
+
+        if winner_text != "":
+            draw_winner(winner_text)
+            break
 
     main()
 
