@@ -23,14 +23,11 @@ WINNER_FONT = pygame.font.SysFont('comicsans', 100)
 YELLOW_HIT = pygame.USEREVENT + 1
 RED_HIT = pygame.USEREVENT + 2
 
-<<<<<<< HEAD
 BULLET_HIT_SOUND = pygame.mixer.Sound(os.path.join(PATH, 'Hit.mp3'))
 BULLET_FIRE_SOUND = pygame.mixer.Sound(os.path.join(PATH, 'Shoot.mp3'))
 
 #arrays to store our bullets
-=======
-# arrays to store our bullets
->>>>>>> 22105cf4e8964ff51cbea0b8f8a883e397eb5a2d
+
 yellow_bullets = []
 red_bullets = []
 MAX_BULLETS = 3
@@ -149,14 +146,13 @@ def handle_bullets(yellow_bullets, red_bullets, yellow, red):
 
 
 def main():
-<<<<<<< HEAD
     
     for bullet in red_bullets:
         red_bullets.remove(bullet)
     
     for bullet in yellow_bullets:
         yellow_bullets.remove(bullet)
-=======
+
 
     for x in red_bullets:
         red_bullets.remove(x)
@@ -164,7 +160,7 @@ def main():
         yellow_bullets.remove(x)
 
     pygame.display.update()
->>>>>>> 22105cf4e8964ff51cbea0b8f8a883e397eb5a2d
+
 
     r = pygame.Rect(700, 300, SS_WIDTH, SS_HEIGHT)
     y = pygame.Rect(100, 300, SS_WIDTH, SS_HEIGHT)
@@ -197,14 +193,14 @@ def main():
                 if event.key == pygame.K_l and len(red_bullets) < MAX_BULLETS:
                     bullet = pygame.Rect(r.x, r.y + r.height//2, 10, 5)
                     red_bullets.append(bullet)
-<<<<<<< HEAD
+
                     BULLET_FIRE_SOUND.play()
             
             #subtracting health points if any spaceship is hit
-=======
+
 
             # subtracting health points if any spaceship is hit
->>>>>>> 22105cf4e8964ff51cbea0b8f8a883e397eb5a2d
+
             if event.type == RED_HIT:
                 BULLET_HIT_SOUND.play()
                 red_health -= 1
@@ -234,7 +230,7 @@ def main():
         if yellow_health <= 0:
             winner_text = "Red Wins"
 
-<<<<<<< HEAD
+
         keys_pressed = pygame.key.get_pressed()
 
         #functions to handle movement
@@ -246,11 +242,11 @@ def main():
 
         #updates the screen with new positions of the spaceships and bullets
         updateScreen(r, y, red_bullets, yellow_bullets, red_health, yellow_health)
-=======
+
         if winner_text != "":
             draw_winner(winner_text)
             break
->>>>>>> 22105cf4e8964ff51cbea0b8f8a883e397eb5a2d
+
 
         if winner_text != "":
             draw_winner(winner_text)
