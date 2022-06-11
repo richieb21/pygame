@@ -25,6 +25,7 @@ RED_HIT = pygame.USEREVENT + 2
 
 BULLET_HIT_SOUND = pygame.mixer.Sound(os.path.join(PATH, 'Hit.mp3'))
 BULLET_FIRE_SOUND = pygame.mixer.Sound(os.path.join(PATH, 'Shoot.mp3'))
+BACKGROUND_MUSIC = pygame.mixer.Sound(os.path.join('pygame/assets','background1.wav'))
 
 #arrays to store our bullets
 
@@ -71,6 +72,7 @@ def updateScreen(red, yellow, red_bullets, yellow_bullets, red_health, yellow_he
     screen.blit(SPACE, (0, 0))
     pygame.draw.rect(screen, BLACK, BORDER)
 
+    #test comment
     red_health_text = HEALTH_FONT.render(
         "Health: " + str(red_health), 1, WHITE)
     yellow_health_text = HEALTH_FONT.render(
@@ -146,7 +148,9 @@ def handle_bullets(yellow_bullets, red_bullets, yellow, red):
 
 
 def main():
-    
+
+    BACKGROUND_MUSIC.play()
+
     for bullet in red_bullets:
         red_bullets.remove(bullet)
     
@@ -251,7 +255,9 @@ def main():
         if winner_text != "":
             draw_winner(winner_text)
             break
-
+    
+    BACKGROUND_MUSIC.stop()
+    pygame.event.clear()
     main()
 
 
